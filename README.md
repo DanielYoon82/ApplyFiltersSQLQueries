@@ -16,59 +16,70 @@ In this scenario, it was my duty as a security analyst to investigate potential 
 <h2>Program walk-through:</h2>
 
 
-<b>Open the file that contains the allow list</b><br />
-There was a potential security incident that took place after business hours. Any failed log in attempts after hours needed to be investigated. <br/>
+- <b>Retrieve after hours failed login attempts</b> <br />
+There was a potential security incident that took place after business hours. Any failed log in attempts after hours needed to be investigated.
 The following code displays how I created a SQL query to filter for failed login attempts that occurred after business hours. <br/>
 <br />
 <p align="center">
 <img src="https://github.com/DanielYoon82/ApplyFiltersSQLQueries/blob/main/images/SQLfla.jpg" height="65%" width="65%" alt="Disk Sanitization Steps"/>
 </p>
 <br />
-<br />
 The query displayed an output of all log in attempts after 18:00. I  then examined the data from the log_in_attempts table. From there, I inputted a WHERE with an AND operator to only display log in attempts that were unsuccessful after 18:00. The first condition is login_time > '18:00', the second condition is success = FALSE <br />
 <br />                                                                                                                                                    
 <br />
-<b>Retrieve login attempts on specific dates</b> <br/>
+
+- <b>Retrieve login attempts on specific dates</b> <br/>
 A suspicious activity occurred on 2022-05-09. Any login activity that happened on 2022-05-09 or 2022-05-08 needed to be inspected. <br />
 The following code displays how I created a SQL query to filter for login activity on the specified dates. <br />
- This code allows me to access the "allow_list.txt" file into a string format which enables me to later use the string to organize and extract data from the Python program: <br />
 <br />
 <p align="center">
-<img src="https://github.com/DanielYoon82/UpdateFileWithPython/blob/main/images/GHFileContents.jpg" height="70%" width="70%" alt="Disk Sanitization Steps"/>
+<img src="https://github.com/DanielYoon82/ApplyFiltersSQLQueries/blob/main/images/SQLLogInAttempts.jpg" height="65%" width="65%" alt="Disk Sanitization Steps"/>
 </p>
+First, I initiated the task by selecting all data from the log_in_attempts table. Secondly, I used a WHERE clause with an OR operator to filter my results to output only login attempts that occurred on either 2022-05-09 or 2022-05-08. The first condition is login_date = '2022-05-09'. The second condition is login_date = '2022-05-08';, which filters for logins on 2022-05-08.
 <br />
 <br />
-CONVERT THE STRING INTO A LIST <br />
-To remove individual IP addresses from the allow list, It needs to be in the list format. I used the .split() method to convert the ip_addresses string into a list. The .split() function is called by appending it to a string variable. It does this by converting the data of a string to a list. The purpose of splitting ip_addresses into a list is to make it easier to remove IP addresses from the allow list. In this algorithm, the .split() function retrieves the data stored in the variable ip_addresses and it converts this string into a list of IP addresses. To store this list, I reassigned it back to the variable ip_addresses:  <br/>
+
+- <b>Retrieve login attempts outside of Mexico</b> <br />
+From investigated login attempts, there appeared to be an issue everywhere other than the country of Mexico. The following query was then created to further investigate the issue with logins. <br/>
 <br />
-<img src="https://github.com/DanielYoon82/UpdateFileWithPython/blob/main/images/GHConvertString.jpg" height="55%" width="55%" alt="Disk Sanitization Steps"/>
-<br />
-<br />
-ITERATE THROUGH THE REMOVE LIST <br />
-A vital part of my algorithm is to iterate through the IP addresses that are elements in the remove_list. To do this, I created a for loop. The purpose of the for loop in this algorithm is to apply specific code statements to all elements in a sequence. The for keyword starts the loop. It is followed by the loop variable element and the keyword in. The keyword in initiates the iteration through the sequence ip_addresses and assigns each value to the loop variable element:  <br/>
-<br />
-<img src="https://github.com/DanielYoon82/UpdateFileWithPython/blob/main/images/GHIterateList.jpg" height="38%" width="38%" alt="Disk Sanitization Steps"/>
+<p align="center">
+<img src="https://github.com/DanielYoon82/ApplyFiltersSQLQueries/blob/main/images/SQLMX.jpg" height="63%" width="63%" alt="Disk Sanitization Steps"/>
+</p>
+First, I inputted the query to retrieve all data from the log_in_attempts table. I then used a WHERE clause with NOT to filter. I utilized  LIKE with MEX% syntax to match due to the dataset correlating to Mexico as MEX and MEXICO. 
 <br />
 <br />
-REMOVE IP ADDRESSES THAT ARE ON THE REMOVE LIST <br />
-This algorithm requires removing any IP address from the allow list, ip_addresses, that is also contained in remove_list. First, within my for loop, I created a conditional that evaluated whether or not the loop variable element was found in the ip_addresses list. I did this because applying .remove() to elements that were not found in ip_addresses would result in an error. <br />
+
+- <b>Retrieve employees in Marketing</b> <br />
+An update was to be performed for certain employees in the Marketing Department. To do that, data from that department needed to be retrieved. The following code shows how I created a SQL query to filter specifically for employees from the Marketing department in the East building.  <br/>
 <br />
-I applied .remove() to ip_addresses. I passed in the loop variable element as the argument so that each IP address that was in the remove_list would be removed from ip_addresses: <br /> 
-<br />
-<img src="https://github.com/DanielYoon82/UpdateFileWithPython/blob/main/images/GHRemoveIP.jpg" height="60%" width="60%" alt="Disk Sanitization Steps"/>
-<br />
-<br />
-UPDATE THE FILE WITH THE REVISED LIST OF IP ADDRESSES <br/>
-Lastly, in this algorithm, I needed to update the allow list file with the revised list of IP addresses. To do this, I needed to convert the list back into a string. I used the .join() method for this. The .join() method combines all items into a string. I used the .join() method to create a string from the list ip_addresses so that I could be changed to an argument in the .write() method when writing to the file "allow_list.txt": <br />
-<br />
-<img src="https://github.com/DanielYoon82/UpdateFileWithPython/blob/main/images/Updatefile.jpg" height="70%" width="70%" alt="Disk Sanitization Steps"/>
+<p align="center">
+<img src="https://github.com/DanielYoon82/ApplyFiltersSQLQueries/blob/main/images/SQLeM.jpg" height="50%" width="50%" alt="Disk Sanitization Steps"/>
+</p>
+I started by selecting all data from the employees table. I then used a WHERE clause with AND to filter for employees who work in the Marketing department and in the East building. I inputted LIKE with East% as the pattern due to ‘East’ having a suffix.
 <br />
 <br />
-Then, I used another with statement and the .write() method to update the file. <br /> 
+
+- <b>Retrieve employees in Finance or Sales</b> <br />
+A unique security update needed to be implemented only to the Finance and Sales departments. The code displays how I created a SQL query to filter from employees in the Finance or Sales departments. <br />
 <br />
-For this, I used a second argument of "w" with the open() function in my with statement. When using this argument "w", I can call the .write() function . The .write() function writes string data to a file and replaces any existing data.
+<p align="center">
+<img src="https://github.com/DanielYoon82/ApplyFiltersSQLQueries/blob/main/images/SQLFS.jpg" height="55%" width="55%" alt="Disk Sanitization Steps"/>
+</p>
+First, I selected data from the employees table. Secondly, I used a WHERE clause with OR to filter for employees who are in the Finance and Sales departments. The OR operator instead of AND was used due to data needed for either department. The first condition is department = 'Marketing' and the second condition is the office LIKE 'East%'.
 <br />
 <br />
-In this scenario I wanted to write the updated allow list as a string to the file "allow_list.txt". The restricted content will no longer be accessible to any IP addresses that were removed from the allow list. To rewrite the file, I appended the .write() function to the file object file that I identified in the with statement. I passed in the ip_addresses variable as the argument to specify that the contents of the file specified in the with statement should be replaced with the data in this variable. <br />
+
+- <b>Retrieve all employees not in IT</b> <br/>
+A security update was necessary for all departments except for Information Technology. The following displays how I created a SQL query to filter for employees not in the  Information Technology department. <br />
 <br />
-<img src="https://github.com/DanielYoon82/UpdateFileWithPython/blob/main/images/write.1.jpg" height="52%" width="52%" alt="Disk Sanitization Steps"/> <br />
+<p align="center">
+<img src="https://github.com/DanielYoon82/ApplyFiltersSQLQueries/blob/main/images/SQLnoIT.png" height="55%" width="55%" alt="Disk Sanitization Steps"/>
+</p>
+I started by gathering all data from the employees table. Secondly, I used a WHERE clause with NOT to filter for employees not in the Information Technology department.
+<br />
+<br />
+
+- <b>Summary</b> <br />
+I demonstrated SQL queries to gather relevant information on login attempts and employee machines. I utilized two different tables, log_in_attempts and employees. I employed the AND, OR, and NOT operators to filter for the particular information needed for each task. In addition, the LIKE and the percentage sign (%) wildcard was used to filter patterns.
+<br />
+<br />
