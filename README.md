@@ -21,7 +21,7 @@ There was a potential security incident that took place after business hours. An
 The following code displays how I created a SQL query to filter for failed login attempts that occurred after business hours. <br/>
 <br />
 <p align="center">
-<img src="https://github.com/DanielYoon82/ApplyFiltersSQLQueries/blob/main/images/SQLfla.jpg" height="65%" width="65%" alt="Disk Sanitization Steps"/>
+<img src="https://github.com/DanielYoon82/ApplyFiltersSQLQueries/blob/main/images/SQLfla.jpg" height="70%" width="70%" alt="Disk Sanitization Steps"/>
 </p>
 <br />
 The query displayed an output of all log in attempts after 18:00. I  then examined the data from the log_in_attempts table. From there, I inputted a WHERE with an AND operator to only display log in attempts that were unsuccessful after 18:00. The first condition is login_time > '18:00', the second condition is success = FALSE <br />
