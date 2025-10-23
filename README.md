@@ -1,4 +1,4 @@
-<h1>Apple Filters to SQL Queries</h1>
+<h1>Apply Filters to SQL Queries</h1>
 
 <h2>Description</h2>
 In this scenario, it was my duty as a security analyst to investigate potential security issues and to ensure the system was safe. The following displays tasks that were performed to identify security issues.
